@@ -6,6 +6,26 @@ import {
     SidebarProvider,
     SidebarTrigger,
 } from "~/components/ui/sidebar";
+import { Separator } from "~/components/ui/separator";
+
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "~/components/ui/breadcrumb";
+
+import { type Metadata } from "next";
+import BreadcrumbPageClient from "~/components/sidebar/breadcrumb-page-client";
+import App from "next/app";
+import AppSidebar from "~/components/sidebar/app-sidebar";
+export const metadata: Metadata = {
+    title: "Konki AI Voice Studio",
+    description: "AI Voice Studio - Transform text into natural-sounding speech",
+    icons: [{ rel: "icon", url: "/favicon.ico" }],
+};
 
 export default function RootLayout({
     children,
@@ -13,9 +33,28 @@ export default function RootLayout({
     return (
         <Providers>
             <SidebarProvider>
-                <SidebarTrigger />
+                <AppSidebar />
                 <SidebarInset className="flex h-screen flex-col">
-                    {children}
+                    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60
+                    border-border/40 sticky top-0 z-10 border-b px-6 py-3 shadow-sm backdrop-blur">
+                        <div className="flex shrink-0 grow items-center gap-3">
+                            <SidebarTrigger className="hover:bg-muted -ml-1 h-8 w-8 transition-colors" />
+                            <Separator
+                                orientation="vertical"
+                                className="mr-2 h-6 data-[orientation=vertical]:h-6"
+                            />
+                            <Breadcrumb>
+                                <BreadcrumbList>
+                                    <BreadcrumbItem>
+                                        <BreadcrumbPageClient />
+                                    </BreadcrumbItem>
+                                </BreadcrumbList>
+                            </Breadcrumb>
+                        </div>
+                    </header>
+                    <main className="from-background to-muted/20 flex-1 overflow-auto bg-gradient-to-br p-6">
+                        {children}
+                    </main>
                 </SidebarInset>
             </SidebarProvider>
             <Toaster />
